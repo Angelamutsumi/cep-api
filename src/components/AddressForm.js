@@ -25,14 +25,14 @@ class AddressForm extends React.Component{
       this.setState({loading:false})
       return cepResult
     })
-    .catch(error => this.setState({error:true, loading:false}))
+    .catch(error => this.setState({error: true, loading: false}))
   }
 
-  handleChange = async(field) => {
-    const {name, value} = field
-    this.setstate({[name]:value, error:false})
-    if(name === 'cep'&& value.lenght === 8){
-      this.setState({loading:true})
+  handleChange = async(event) => {
+    const {name, value} = event.target;
+    this.setState({[name]: value, error: false})
+    if(name === 'cep' && value.lenght === 8){
+      this.setState({loading: true})
       const cepObject = await this.verificaCep(value)
       if (cepObject.erro){
         this.setState({error: true})
@@ -46,10 +46,10 @@ class AddressForm extends React.Component{
 
   handleBlur = async value => {
     if(value.lenght === 8) {
-      this.setState({loading:true})
+      this.setState({loading: true})
       const cepObject = await this.verificaCep(value)
       if(cepObject.erro){
-        this.setState({error:true})
+        this.setState({error: true})
         return
       }
       const {cep, bairro, logradouro, localidade, uf} = cepObject
@@ -66,35 +66,35 @@ class AddressForm extends React.Component{
             <Form>
                 <FormGroup>
                 <Label for="cep">CEP</Label>
-                <Input type="text" name="cep" id="cep" placeholder="00000-000"/>
+                <Input type="text" name="cep" id="cep" placeholder="00000-000" value={cep} onChange={(e) => this.handleChange(e)}/>
               </FormGroup>
 
               <FormGroup>
                 <Label for="logradouro">Logradouro</Label>
-                <Input type="text" name="logradouro" id="logradouro" placeholder="Rua, avenida, travessa"/>
+                <Input type="text" name="logradouro" id="logradouro" placeholder="Rua, avenida, travessa" value={logradouro} onChange={(e) => this.handleChange(e)}/>
               </FormGroup>
 
               <FormGroup>
                 <Label for="numero">Número</Label>
-                <Input type="text" name="numero" id="numero"/>
+                <Input type="text" name="numero" id="numero" value={numero} onChange={(e) => this.handleChange(e)}/>
               </FormGroup>
                
               <FormGroup>
                 <Label for="localidade">Localidade</Label>
-                <Input type="text" name="localidade" id="localidade" placeholder="Rua, avenida, travessa"/>
+                <Input type="text" name="localidade" id="localidade" placeholder="Rua, avenida, travessa" value={localidade} onChange={(e) => this.handleChange(e)}/>
               </FormGroup>
 
               <Row form>
                 <Col md={6}>
                   <FormGroup>
                     <Label for="bairro">Bairro</Label>
-                    <Input type="text" name="bairro" id="bairro"/>
+                    <Input type="text" name="bairro" id="bairro" value={bairro} onChange={(e) => this.handleChange(e)}/>
                   </FormGroup>
                 </Col>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="estado">Estado</Label>
-                    <Input type="text" name="estado" id="estado"/>
+                    <Label for="uf">Estado</Label>
+                    <Input type="text" name="uf" id="uf" value={uf} onChange={(e) => this.handleChange(e)}/>
                   </FormGroup>
                 </Col>
               </Row>
@@ -104,6 +104,6 @@ class AddressForm extends React.Component{
         </Row>
       </Container>
     );
-}
+  }
 }
 export default AddressForm;
